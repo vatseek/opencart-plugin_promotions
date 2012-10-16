@@ -8,9 +8,6 @@
   <h1><?php echo $heading_title; ?></h1>
   <span><image src="<?php echo $image_url?>" alt="<?php echo $image?>"></span>
   <?php echo $description; ?>
-  <!--div class="buttons">
-    <div class="right"><a href="<?php echo $continue; ?>" class="button"><?php echo $button_continue; ?></a></div>
-  </div-->
   <div class="product-grid">
       <?php foreach($products as $product): ?>
       <div>

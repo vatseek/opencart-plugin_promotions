@@ -4,7 +4,8 @@
  *
  * Manage promotions in backoffice
  */
-class ControllerModulePromotion extends Controller {
+class ControllerModulePromotion extends Controller
+{
     /**
      * @var array errors container
      */
@@ -13,7 +14,7 @@ class ControllerModulePromotion extends Controller {
     /**
      * @var array breadcrumbs list to index page
      */
-    private $indexBreadcrumbs = array (
+    private $indexBreadcrumbs = array(
         'text_home' => 'common/home',
         'text_module' => 'extension/module',
         'heading_title' => 'module/promotion',
@@ -22,7 +23,7 @@ class ControllerModulePromotion extends Controller {
     /**
      * @var array breadcrumbs list to slideshow page
      */
-    private $slideshowBreadcrumbs = array (
+    private $slideshowBreadcrumbs = array(
         'text_home' => 'common/home',
         'text_module' => 'extension/module',
         'heading_title' => 'module/promotion',
@@ -33,7 +34,7 @@ class ControllerModulePromotion extends Controller {
      * @param $breadcrumbsList list of breadcrumbs
      * @return array processed array with links, names, etc..
      */
-    protected function createBreadcrumbsArray( $breadcrumbsList )
+    protected function createBreadcrumbsArray($breadcrumbsList)
     {
         $result = array();
         $first = true;
@@ -46,8 +47,8 @@ class ControllerModulePromotion extends Controller {
             }
 
             $result[] = array(
-                'text'      => $this->language->get($breadcrumbText),
-                'href'      => $this->url->link($breadcrumbLink, 'token=' . $this->session->data['token'], 'SSL'),
+                'text' => $this->language->get($breadcrumbText),
+                'href' => $this->url->link($breadcrumbLink, 'token=' . $this->session->data['token'], 'SSL'),
                 'separator' => $separator
             );
         }
@@ -60,27 +61,27 @@ class ControllerModulePromotion extends Controller {
      */
     public function index()
     {
-		$this->load->language('module/promotion');
+        $this->load->language('module/promotion');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('setting/setting');
+        $this->load->model('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->model_setting_setting->editSetting('promotion', $this->request->post);
-					
-			$this->session->data['success'] = $this->language->get('text_success');
-						
-			$this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
-		}
-				
-		$this->data['heading_title'] = $this->language->get('heading_title');
-		$this->data['text_enabled'] = $this->language->get('text_enabled');
-		$this->data['text_disabled'] = $this->language->get('text_disabled');
-		$this->data['text_content_top'] = $this->language->get('text_content_top');
-		$this->data['text_content_bottom'] = $this->language->get('text_content_bottom');		
-		$this->data['text_column_left'] = $this->language->get('text_column_left');
-		$this->data['text_column_right'] = $this->language->get('text_column_right');
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+            $this->model_setting_setting->editSetting('promotion', $this->request->post);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+        }
+
+        $this->data['heading_title'] = $this->language->get('heading_title');
+        $this->data['text_enabled'] = $this->language->get('text_enabled');
+        $this->data['text_disabled'] = $this->language->get('text_disabled');
+        $this->data['text_content_top'] = $this->language->get('text_content_top');
+        $this->data['text_content_bottom'] = $this->language->get('text_content_bottom');
+        $this->data['text_column_left'] = $this->language->get('text_column_left');
+        $this->data['text_column_right'] = $this->language->get('text_column_right');
 
         $this->data['column_image'] = $this->language->get('column_image');
         $this->data['column_title'] = $this->language->get('column_title');
@@ -88,20 +89,20 @@ class ControllerModulePromotion extends Controller {
         $this->data['column_order'] = $this->language->get('column_order');
         $this->data['column_actions'] = $this->language->get('column_actions');
 
-		$this->data['entry_banner'] = $this->language->get('entry_banner');
-		$this->data['entry_dimension'] = $this->language->get('entry_dimension'); 
-		$this->data['entry_layout'] = $this->language->get('entry_layout');
-		$this->data['entry_position'] = $this->language->get('entry_position');
-		$this->data['entry_status'] = $this->language->get('entry_status');
-		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
-		
- 		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
-		} else {
-			$this->data['error_warning'] = '';
-		}
-				
-  		$this->data['breadcrumbs'] = $this->createBreadcrumbsArray($this->indexBreadcrumbs);
+        $this->data['entry_banner'] = $this->language->get('entry_banner');
+        $this->data['entry_dimension'] = $this->language->get('entry_dimension');
+        $this->data['entry_layout'] = $this->language->get('entry_layout');
+        $this->data['entry_position'] = $this->language->get('entry_position');
+        $this->data['entry_status'] = $this->language->get('entry_status');
+        $this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
+
+        if (isset($this->error['warning'])) {
+            $this->data['error_warning'] = $this->error['warning'];
+        } else {
+            $this->data['error_warning'] = '';
+        }
+
+        $this->data['breadcrumbs'] = $this->createBreadcrumbsArray($this->indexBreadcrumbs);
 
 
         $this->load->model('module/promotion');
@@ -126,22 +127,22 @@ class ControllerModulePromotion extends Controller {
         $this->data['delete'] = $this->url->link('module/promotion/delete', '&token=' . $this->session->data['token']);
         $this->data['slideshow'] = $this->url->link('module/promotion/slideshow', '&token=' . $this->session->data['token']);
 
-		$this->template = 'module/promotion.tpl';
-		$this->children = array(
-			'common/header',
-			'common/footer'
-		);
+        $this->template = 'module/promotion.tpl';
+        $this->children = array(
+            'common/header',
+            'common/footer'
+        );
 
         // set error success messages
         $this->data['error'] = $this->error;
         $this->data['success'] = '';
-        if (isset($this->session->data['success']) && $this->session->data['success'] ) {
+        if (isset($this->session->data['success']) && $this->session->data['success']) {
             $this->data['success'] = $this->session->data['success'];
             $this->session->data['success'] = '';
         }
-				
-		$this->response->setOutput($this->render());
-	}
+
+        $this->response->setOutput($this->render());
+    }
 
     /**
      * delete controller page
@@ -152,9 +153,9 @@ class ControllerModulePromotion extends Controller {
             $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
         }
 
-        if ( isset($this->request->post['selected'])) {
+        if (isset($this->request->post['selected'])) {
             $selectedPromotions = array();
-            foreach ($this->request->post['selected'] as $selectedPromotionItem ){
+            foreach ($this->request->post['selected'] as $selectedPromotionItem) {
                 $selectedPromotions[] = (int)$selectedPromotionItem;
             }
 
@@ -173,17 +174,18 @@ class ControllerModulePromotion extends Controller {
      *
      * @return bool is_valid
      */
-    private function validate() {
-		if (!$this->user->hasPermission('modify', 'module/promotion')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
+    private function validate()
+    {
+        if (!$this->user->hasPermission('modify', 'module/promotion')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
 
-		if (!$this->error) {
-			return true;
-		} else {
-			return false;
-		}	
-	}
+        if (!$this->error) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * @param string $image image name
@@ -193,9 +195,7 @@ class ControllerModulePromotion extends Controller {
     {
         if ($image) {
             return $this->model_tool_image->resize($image, 100, 100);
-        }
-        else
-        {
+        } else {
             return $this->model_tool_image->resize('no_image.jpg', 100, 100);
         }
     }
@@ -208,12 +208,11 @@ class ControllerModulePromotion extends Controller {
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
             $this->load->model('module/promotion');
-            if ( $this->model_module_promotion->savePromotion($this->request->post)) {
+            if ($this->model_module_promotion->savePromotion($this->request->post)) {
                 $this->session->data['success'] = 'Saved successful';
                 $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
             }
-        }
-        else {
+        } else {
             $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
         }
     }
@@ -291,8 +290,7 @@ class ControllerModulePromotion extends Controller {
             $promotionId = $this->request->get['promotion_id'];
             $this->data['promotion'] = $this->model_module_promotion->getPromotionById($promotionId);
             $this->data['promotion_description'] = $this->model_module_promotion->getPromotionDescriptions($promotionId);
-        }
-        else {
+        } else {
             $this->data['promotion'] = $this->model_module_promotion->getTableDBFields('promotion');
             $descriptionFields = $this->model_module_promotion->getTableDBFields('promotion_description');
 
@@ -301,9 +299,9 @@ class ControllerModulePromotion extends Controller {
             }
         }
 
-        foreach($this->data['promotion_description'] as $promotionId => $promotion) {
+        foreach ($this->data['promotion_description'] as $promotionId => $promotion) {
             if (!$this->data['promotion_description'][$promotionId]['image']) {
-                $this->data['promotion_description'][$promotionId]['image']  ='no_image.jpg';
+                $this->data['promotion_description'][$promotionId]['image'] = 'no_image.jpg';
             }
             $this->data['promotion_description'][$promotionId]['image_url'] = $this->setImageLink($this->data['promotion_description'][$promotionId]['image']);
         }
@@ -328,7 +326,8 @@ class ControllerModulePromotion extends Controller {
     /**
      * edit slideshow page
      */
-    public function slideshow() {
+    public function slideshow()
+    {
         $this->load->language('module/promotion');
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -408,11 +407,11 @@ class ControllerModulePromotion extends Controller {
     }
 
 
-
     /**
      * Installing module data
      */
-    public function install() {
+    public function install()
+    {
         $this->load->model('module/promotion');
         $this->model_module_promotion->install();
     }
@@ -420,7 +419,8 @@ class ControllerModulePromotion extends Controller {
     /**
      * Clear module data
      */
-    public function uninstall() {
+    public function uninstall()
+    {
         $this->load->model('module/promotion');
         $this->model_module_promotion->uninstall();
     }

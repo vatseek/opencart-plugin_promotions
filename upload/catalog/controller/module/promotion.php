@@ -14,44 +14,45 @@ class ControllerModulePromotion extends Controller
      */
     protected function index($setting)
     {
-		static $module = 0;
-		
-		$this->load->model('module/promotion');
-		$this->load->model('tool/image');
+        static $module = 0;
 
-		$this->document->addScript('catalog/view/javascript/jquery/nivo-slider/jquery.nivo.slider.pack.js');
-		
-		if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/slideshow.css')) {
-			$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/slideshow.css');
-		} else {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/slideshow.css');
-		}
+        $this->load->model('module/promotion');
+        $this->load->model('tool/image');
 
-		$this->data['width'] = $setting['width'];
-		$this->data['height'] = $setting['height'];
-		
-		$this->data['promotions'] = $this->model_module_promotion->getPromotions();
+        $this->document->addScript('catalog/view/javascript/jquery/nivo-slider/jquery.nivo.slider.pack.js');
+
+        if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/slideshow.css')) {
+            $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/slideshow.css');
+        } else {
+            $this->document->addStyle('catalog/view/theme/default/stylesheet/slideshow.css');
+        }
+
+        $this->data['width'] = $setting['width'];
+        $this->data['height'] = $setting['height'];
+
+        $this->data['promotions'] = $this->model_module_promotion->getPromotions();
 
         foreach ($this->data['promotions'] as $promotionItem => $result) {
             $this->data['promotions'][$promotionItem]['image_link'] = $this->model_tool_image->resize($result['image'], $setting['width'], $setting['height']);
-            $this->data['promotions'][$promotionItem]['item_link'] = $this->url->link('module/promotion/show', 'promotion_id=' . $result['promotion_id'] );
+            $this->data['promotions'][$promotionItem]['item_link'] = $this->url->link('module/promotion/show', 'promotion_id=' . $result['promotion_id']);
         }
-		
-		$this->data['module'] = $module++;
-						
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/slideshow.tpl')) {
-			$this->template = $this->config->get('config_template') . '/template/module/promotionslideshow.tpl';
-		} else {
-			$this->template = 'default/template/module/promotionslideshow.tpl';
-		}
-		
-		$this->render();
-	}
+
+        $this->data['module'] = $module++;
+
+        if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/slideshow.tpl')) {
+            $this->template = $this->config->get('config_template') . '/template/module/promotionslideshow.tpl';
+        } else {
+            $this->template = 'default/template/module/promotionslideshow.tpl';
+        }
+
+        $this->render();
+    }
 
     /**
      * show promotion show
      */
-    public function show() {
+    public function show()
+    {
         $this->load->language('module/promotion');
 
         if (isset($this->request->get['promotion_id'])) {
@@ -62,23 +63,23 @@ class ControllerModulePromotion extends Controller
         }
 
         $this->load->model('module/promotion');
-        if($promotionInfo = $this->model_module_promotion->getPromotion($promotionId)) {
+        if ($promotionInfo = $this->model_module_promotion->getPromotion($promotionId)) {
 
             $this->language->load('module/promotion');
             $this->load->model('tool/image');
 
             $this->data['breadcrumbs'] = array();
             $this->data['breadcrumbs'][] = array(
-                'text'      => $this->language->get('text_home'),
-                'href'      => $this->url->link('common/home'),
+                'text' => $this->language->get('text_home'),
+                'href' => $this->url->link('common/home'),
                 'separator' => false
             );
 
             $this->document->setTitle($promotionInfo['name']);
 
             $this->data['breadcrumbs'][] = array(
-                'text'      => $promotionInfo['name'],
-                'href'      => $this->url->link('module/promotion', 'promotion_id=' .  $promotionId),
+                'text' => $promotionInfo['name'],
+                'href' => $this->url->link('module/promotion', 'promotion_id=' . $promotionId),
                 'separator' => $this->language->get('text_separator')
             );
 
@@ -92,14 +93,13 @@ class ControllerModulePromotion extends Controller
             if (isset($promotion['promotion_module'][0]['width']) && isset($promotion['promotion_module'][0]['height'])) {
                 $settings['height'] = $promotion['promotion_module'][0]['height'];
                 $settings['width'] = $promotion['promotion_module'][0]['width'];
-            }
-            else {
+            } else {
                 $settings['height'] = 280;
                 $settings['width'] = 880;
             }
 
             $this->data['image'] = $promotionInfo['image'];
-            $this->data['image_url'] = $this->model_tool_image->resize($promotionInfo['image'],$settings['width'],$settings['height']);
+            $this->data['image_url'] = $this->model_tool_image->resize($promotionInfo['image'], $settings['width'], $settings['height']);
             $this->data['description'] = html_entity_decode($promotionInfo['description'], ENT_QUOTES, 'UTF-8');
             $this->data['continue'] = $this->url->link('common/home');
 
@@ -132,11 +132,11 @@ class ControllerModulePromotion extends Controller
 
                 $this->data['products'][$arrayKey] = array(
                     'product_id' => $result['product_id'],
-                    'thumb'   	 => $image,
-                    'name'    	 => $result['name'],
-                    'price'   	 => $price,
-                    'special' 	 => $special,
-                    'href'    	 => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                    'thumb' => $image,
+                    'name' => $result['name'],
+                    'price' => $price,
+                    'special' => $special,
+                    'href' => $this->url->link('product/product', 'product_id=' . $result['product_id']),
                 );
             }
 
@@ -166,12 +166,13 @@ class ControllerModulePromotion extends Controller
      *
      * @param int $promotionId errored promotion id
      */
-    protected function renderErrorPage($promotionId = 0) {
+    protected function renderErrorPage($promotionId = 0)
+    {
         $this->load->language('module/promotion');
 
         $this->data['breadcrumbs'][] = array(
-            'text'      => $this->language->get('text_error'),
-            'href'      => $this->url->link('information/information', 'information_id=' . $promotionId),
+            'text' => $this->language->get('text_error'),
+            'href' => $this->url->link('information/information', 'information_id=' . $promotionId),
             'separator' => $this->language->get('text_separator')
         );
 
@@ -203,4 +204,5 @@ class ControllerModulePromotion extends Controller
         $this->response->setOutput($this->render());
     }
 }
+
 ?>

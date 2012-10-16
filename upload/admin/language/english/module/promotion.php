@@ -1,7 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Промо акции';
-$_['heading_slideshow']       = 'Слайдшоу';
+$_['heading_slideshow']   = 'Слайдшоу';
 
 
 // Text
@@ -24,22 +24,22 @@ $_['entry_status']        = 'Статус:';
 $_['entry_sort_order']    = 'Порядок сортировки:';
 $_['entity_active']       = 'Активный';
 $_['entity_inactive']     = 'Не активный';
-$_['entry_name']         = 'Название акции';
-$_['entry_description']  = 'Описание';
+$_['entry_name']          = 'Название акции';
+$_['entry_description']   = 'Описание';
 $_['entry_meta_description']   = 'Мета-тег "Описание":';
-$_['entry_image']        = 'Изображение';
+$_['entry_image']         = 'Изображение';
 
 // Error
 $_['error_permission']    = 'У Вас нет прав для изменения модуля баннера!';
 $_['error_dimension']     = 'Введите размеры баннера!';
 
 //Buttons
-$_['button_insert']     = 'Добавить';
-$_['button_delete']     = 'Удалить';
-$_['button_edit']       = 'Изменить';
-$_['button_save']       = 'Сохранить';
-$_['button_cancel']     = 'Отменить';
-$_['button_slideshow']  = 'Slideshow';
+$_['button_insert']       = 'Добавить';
+$_['button_delete']       = 'Удалить';
+$_['button_edit']         = 'Изменить';
+$_['button_save']         = 'Сохранить';
+$_['button_cancel']       = 'Отменить';
+$_['button_slideshow']    = 'Slideshow';
 
 //Columns
 $_['column_image']      = 'Стикер';

@@ -4,7 +4,8 @@
  *
  * Manage all admin promotion operation
  */
-class ModelModulePromotion extends Model {
+class ModelModulePromotion extends Model
+{
 
     /**
      * Save promotion data to DB
@@ -14,9 +15,9 @@ class ModelModulePromotion extends Model {
      */
     public function savePromotion($promotionData)
     {
-        if ( isset($promotionData['promotion_id']) && isset($promotionData['title']) && isset($promotionData['status']) && isset($promotionData['picture']) && isset($promotionData['order']) && isset($promotionData['position'])) {
+        if (isset($promotionData['promotion_id']) && isset($promotionData['title']) && isset($promotionData['status']) && isset($promotionData['picture']) && isset($promotionData['order']) && isset($promotionData['position'])) {
             if (!$promotionData['promotion_id']) {
-               $promotionData['promotion_id'] = 'NULL';
+                $promotionData['promotion_id'] = 'NULL';
             }
 
             $lastInsertedId = (int)$promotionData['promotion_id'];
@@ -33,18 +34,17 @@ class ModelModulePromotion extends Model {
             $subQuery .= "`picture` = '{$dataPicture}', ";
             $subQuery .= "`order` = '{$dataOrder}', ";
             $subQuery .= "`position` = '{$dataPosition}' ";
-            $query .= $subQuery ." ON DUPLICATE KEY UPDATE ". $subQuery;
+            $query .= $subQuery . " ON DUPLICATE KEY UPDATE " . $subQuery;
             $this->db->query($query);
 
             if ($this->db->getLastId()) {
                 $lastInsertedId = $this->db->getLastId();
             }
 
-            $this->savePromotionDescription($promotionData['promotion_description'], $lastInsertedId );
+            $this->savePromotionDescription($promotionData['promotion_description'], $lastInsertedId);
 
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -61,7 +61,7 @@ class ModelModulePromotion extends Model {
         $query = "DELETE FROM `" . DB_PREFIX . "promotion_description` WHERE promotion_id = '{$promotionId}'";
         $result = $this->db->query($query);
 
-        foreach($promotionDescriptionData as $language_id =>$description) {
+        foreach ($promotionDescriptionData as $language_id => $description) {
 
             $dataDescriptionId = 'NULL';
             $dataPromotionId = $promotionId;
@@ -80,7 +80,7 @@ class ModelModulePromotion extends Model {
             $subQuery .= "`meta_description` = '{$dataMetaDescription}', ";
             $subQuery .= "`image` = '{$dataImage}', ";
             $subQuery .= "`banner_id` = '{$dataBannerId}' ";
-            $query .= $subQuery ." ON DUPLICATE KEY UPDATE ". $subQuery;
+            $query .= $subQuery . " ON DUPLICATE KEY UPDATE " . $subQuery;
 
             $this->db->query($query);
         }
@@ -93,7 +93,7 @@ class ModelModulePromotion extends Model {
      */
     public function deletePromotions($promotionsList)
     {
-        $subQuery = '(' . implode ($promotionsList, ',') . ')';
+        $subQuery = '(' . implode($promotionsList, ',') . ')';
 
         $query = "DELETE FROM `" . DB_PREFIX . "promotion` WHERE promotion_id IN {$subQuery}";
         $this->db->query($query);
@@ -158,7 +158,7 @@ class ModelModulePromotion extends Model {
         $query = "DESC `" . DB_PREFIX . "{$tableName}`; ";
         $result = $this->db->query($query);
 
-        foreach($result->rows as $field) {
+        foreach ($result->rows as $field) {
             $fieldNames[$field['Field']] = '';
         }
 
@@ -172,28 +172,28 @@ class ModelModulePromotion extends Model {
     {
         $query = "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "promotion` (
             `promotion_id` INT(10) NOT NULL AUTO_INCREMENT,
-	        `title` VARCHAR(255),
-	        `status` TINYINT(1) NOT NULL DEFAULT '0',
-        	`picture` VARCHAR(255),
-	        `position` VARCHAR(60),
-	        `order` TINYINT(3) NOT NULL DEFAULT '0',
-	        `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
-	        PRIMARY KEY `promotion_id`(`promotion_id`)
+            `title` VARCHAR(255),
+            `status` TINYINT(1) NOT NULL DEFAULT '0',
+            `picture` VARCHAR(255),
+            `position` VARCHAR(60),
+            `order` TINYINT(3) NOT NULL DEFAULT '0',
+            `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
+            PRIMARY KEY `promotion_id`(`promotion_id`)
             )ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
         $this->db->query($query);
 
         $query = "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "promotion_description` (
             `description_id` INT(10) NOT NULL AUTO_INCREMENT,
-	        `promotion_id` INT(10) NOT NULL DEFAULT '0',
-	        `language_id` INT(10) NOT NULL DEFAULT '0',
-	        `name` VARCHAR(255) NOT NULL,
-	        `description` TEXT,
-	        `meta_description` VARCHAR(255) NOT NULL DEFAULT '',
-	        `image` VARCHAR(255)  NOT NULL DEFAULT '',
-	        `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
-	        PRIMARY KEY `description_id` (`description_id`),
-	        UNIQUE KEY (`promotion_id`, `language_id`),
-	        KEY `language_id`(`language_id`)
+            `promotion_id` INT(10) NOT NULL DEFAULT '0',
+            `language_id` INT(10) NOT NULL DEFAULT '0',
+            `name` VARCHAR(255) NOT NULL,
+            `description` TEXT,
+            `meta_description` VARCHAR(255) NOT NULL DEFAULT '',
+            `image` VARCHAR(255)  NOT NULL DEFAULT '',
+            `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
+            PRIMARY KEY `description_id` (`description_id`),
+            UNIQUE KEY (`promotion_id`, `language_id`),
+            KEY `language_id`(`language_id`)
             )ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
         $this->db->query($query);
 
@@ -201,7 +201,7 @@ class ModelModulePromotion extends Model {
 
         $columnExists = false;
         foreach ($result->rows as $column) {
-            if($column['Field'] == 'promotion_id') {
+            if ($column['Field'] == 'promotion_id') {
                 $columnExists = true;
             }
         }
@@ -212,8 +212,8 @@ class ModelModulePromotion extends Model {
         }
 
         //rename file to enabled for vqmod
-        $path = str_replace('system/config','vqmod/xml',DIR_CONFIG);
-        rename($path . 'promotion.bak',$path . 'promotion.xml');
+        $path = str_replace('system/config', 'vqmod/xml', DIR_CONFIG);
+        rename($path . 'promotion.bak', $path . 'promotion.xml');
     }
 
     /**
@@ -222,7 +222,7 @@ class ModelModulePromotion extends Model {
     public function uninstall()
     {
         //rename file to disables for vqmod
-        $path = str_replace('system/config','vqmod/xml',DIR_CONFIG);
-        rename($path . 'promotion.xml',$path . 'promotion.bak');
+        $path = str_replace('system/config', 'vqmod/xml', DIR_CONFIG);
+        rename($path . 'promotion.xml', $path . 'promotion.bak');
     }
 }

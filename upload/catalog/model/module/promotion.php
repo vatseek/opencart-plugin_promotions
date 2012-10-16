@@ -4,17 +4,19 @@
  *
  * @copyright  2012 Stfalcon (http://stfalcon.com/)
  */
-class ModelModulePromotion extends Model {
+class ModelModulePromotion extends Model
+{
 
     /**
      * returned all promotions
      *
      * @return array promotions data list
      */
-    public function getPromotions() {
+    public function getPromotions()
+    {
         $currentLanguageId = (int)$this->config->get('config_language_id');
 
-		$query = "SELECT _p.promotion_id, _pd.description, _pd.meta_description, _pd.image  FROM `" . DB_PREFIX . "promotion` AS _p ";
+        $query = "SELECT _p.promotion_id, _pd.description, _pd.meta_description, _pd.image  FROM `" . DB_PREFIX . "promotion` AS _p ";
         $query .= "INNER JOIN `" . DB_PREFIX . "promotion_description` AS _pd ";
         $query .= "ON _pd.promotion_id = _p.promotion_id AND _pd.language_id = '{$currentLanguageId}' ";
         $query .= "WHERE _p.status <> 0 AND LENGTH(_pd.image ) > 0;";
@@ -22,13 +24,13 @@ class ModelModulePromotion extends Model {
         $result = $this->db->query($query);
         $promotionsList = $result->rows;
 
-        foreach ($promotionsList as $arrayId => $promotion ) {
-            if (!file_exists(DIR_IMAGE.$promotion['image'])) {
+        foreach ($promotionsList as $arrayId => $promotion) {
+            if (!file_exists(DIR_IMAGE . $promotion['image'])) {
                 unset($promotionsList[$arrayId]);
             }
         }
-		return $promotionsList;
-	}
+        return $promotionsList;
+    }
 
     /**
      * return promotion by ID
@@ -36,7 +38,8 @@ class ModelModulePromotion extends Model {
      * @param int $promotionId ID of promotion
      * @return mixed
      */
-    public function getPromotion($promotionId) {
+    public function getPromotion($promotionId)
+    {
         $currentLanguageId = (int)$this->config->get('config_language_id');
         $promotionId += 0;
 
@@ -55,7 +58,7 @@ class ModelModulePromotion extends Model {
      * @param int $promotionId
      * @return array products data list
      */
-    public function getProductsOfPromotion( $promotionId )
+    public function getProductsOfPromotion($promotionId)
     {
         $currentLanguageId = (int)$this->config->get('config_language_id');
         $promotionId += 0;
@@ -83,7 +86,8 @@ class ModelModulePromotion extends Model {
      *
      * @return array|bool promotion banner settings
      */
-    public function getPromotionSettings() {
+    public function getPromotionSettings()
+    {
         $this->load->model('setting/setting');
         $promotion = $this->model_setting_setting->getSetting('promotion');
 
@@ -94,11 +98,10 @@ class ModelModulePromotion extends Model {
             $settings['image'] = $promotion['promotion_module'][0]['image'];
 
             return $settings;
-        }
-        else {
+        } else {
             return false;
         }
     }
-
 }
+
 ?>
