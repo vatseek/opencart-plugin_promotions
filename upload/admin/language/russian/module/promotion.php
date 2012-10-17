@@ -1,3 +1,4 @@
+
 <?php
 // Heading
 $_['heading_title']       = 'Промо акции';
@@ -11,9 +12,9 @@ $_['text_content_top']    = 'Содержание шапки';
 $_['text_content_bottom'] = 'Содержание подвала';
 $_['text_column_left']    = 'Левая колонка';
 $_['text_column_right']   = 'Правая колонка';
-$_['text_browse']         = 'Обзор';
-$_['text_clear']          = 'Очистить';
-$_['text_image_manager']  = 'Управление изображениями';
+$_['text_browse']   = 'Обзор';
+$_['text_clear']   = 'Очистить';
+$_['text_image_manager']   = 'Управление изображениями';
 
 // Entry
 $_['entry_banner']        = 'Баннер:';
@@ -39,18 +40,18 @@ $_['button_delete']       = 'Удалить';
 $_['button_edit']         = 'Изменить';
 $_['button_save']         = 'Сохранить';
 $_['button_cancel']       = 'Отменить';
-$_['button_slideshow']    = 'Slideshow';
+$_['button_slideshow']    = 'Слайдшоу';
 
 //Columns
-$_['column_image']        = 'Стикер';
-$_['column_title']        = 'Название';
-$_['column_status']       = 'Состояние';
-$_['column_order']        = 'Порядок';
-$_['column_position']     = 'Позиция';
-$_['column_actions']      = 'Дейтвия';
+$_['column_image']      = 'Стикер';
+$_['column_title']      = 'Название';
+$_['column_status']     = 'Состояние';
+$_['column_order']      = 'Порядок';
+$_['column_position']   = 'Позиция';
+$_['column_actions']    = 'Дейтвия';
 
 //Tabs
-$_['tab_general']         = 'Общее';
-$_['tab_data']            = 'Данные';
+$_['tab_general']      = 'Общее';
+$_['tab_data']         = 'Данные';
 
 ?>

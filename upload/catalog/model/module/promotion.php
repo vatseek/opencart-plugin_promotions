@@ -16,7 +16,7 @@ class ModelModulePromotion extends Model
     {
         $currentLanguageId = (int)$this->config->get('config_language_id');
 
-        $query = "SELECT _p.promotion_id, _pd.description, _pd.meta_description, _pd.image  FROM `" . DB_PREFIX . "promotion` AS _p ";
+        $query = "SELECT _p.promotion_id, _pd.description, _pd.image  FROM `" . DB_PREFIX . "promotion` AS _p ";
         $query .= "INNER JOIN `" . DB_PREFIX . "promotion_description` AS _pd ";
         $query .= "ON _pd.promotion_id = _p.promotion_id AND _pd.language_id = '{$currentLanguageId}' ";
         $query .= "WHERE _p.status <> 0 AND LENGTH(_pd.image ) > 0;";

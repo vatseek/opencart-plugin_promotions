@@ -63,14 +63,6 @@
                     </td>
                     </tr>
                     <tr>
-                        <td><?php echo $entry_meta_description; ?></td>
-                        <td><textarea
-                                name="promotion_description[<?php echo $language['language_id']; ?>][meta_description]"
-                                cols="40"
-                                rows="5"><?php echo isset($promotion_description[$language['language_id']]) ? $promotion_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
-                        </td>
-                    </tr>
-                    <tr>
                         <td><?php echo $entry_description; ?></td>
                         <td><textarea name="promotion_description[<?php echo $language['language_id']; ?>][description]"
                                       id="description<?php echo $language['language_id']; ?>"><?php echo isset($promotion_description[$language['language_id']]) ? $promotion_description[$language['language_id']]['description'] : ''; ?></textarea>
@@ -83,14 +75,10 @@
         <div id="tab-data">
             <table class="form">
                 <tr>
-                    <td><span class="required">*</span> <?php echo $column_title; ?></td>
                     <td>
+                        <?php echo $column_status; ?>
                         <input type="hidden" name="promotion_id" value="<?php echo $promotion['promotion_id']; ?>"/>
-                        <input type="text" name="title" value="<?php echo $promotion['title']; ?>"/>
                     </td>
-                </tr>
-                <tr>
-                    <td><?php echo $column_status; ?></td>
                     <td>
                         <select name="status">
                             <option value="1"
@@ -100,24 +88,6 @@
                             <?php echo !$promotion['status'] ? 'selected="selected"' : ''; ?>
                             ><?php echo $entity_inactive ?></option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><?php echo $column_image; ?></td>
-                    <td>
-                        <input type="text" name="picture" value="<?php echo $promotion['picture']; ?>"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><?php echo $column_order; ?></td>
-                    <td>
-                        <input type="text" name="order" value="<?php echo $promotion['order']; ?>"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><?php echo $column_position; ?></td>
-                    <td>
-                        <input type="text" name="position" value="<?php echo $promotion['position']; ?>"/>
                     </td>
                 </tr>
             </table>

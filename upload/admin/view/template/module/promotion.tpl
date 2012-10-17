@@ -31,8 +31,6 @@
                         </td>
                         <td class="center"><?php echo $column_title; ?></td>
                         <td class="center"><?php echo $column_status; ?></td>
-                        <td class="center"><?php echo $column_order; ?></td>
-                        <td class="center"><?php echo $column_image; ?></td>
                         <td class="center"><?php echo $column_actions; ?></td>
                     </tr>
                     </thead>
@@ -45,8 +43,6 @@
                         <td class="center"><?php echo $promotion['status'] ? "<span style=\"color:green;\">{$entity_active}</span>
                             " : "<span style=\"color:red;\">{$entity_inactive}</span>";?>
                         </td>
-                        <td class="center"><?php echo $promotion['order']?></td>
-                        <td class="center"><?php echo $promotion['picture']?></td>
                         <td class="center"><a
                                 href="<?php echo $promotion['action_url']?>"><?php echo $button_edit ?></a></td>
                     <tr>

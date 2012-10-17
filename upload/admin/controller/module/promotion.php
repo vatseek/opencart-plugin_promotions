@@ -212,6 +212,9 @@ class ControllerModulePromotion extends Controller
                 $this->session->data['success'] = 'Saved successful';
                 $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
             }
+            else {
+                $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
+            }
         } else {
             $this->redirect($this->url->link('module/promotion', 'token=' . $this->session->data['token'], 'SSL'));
         }
@@ -269,19 +272,17 @@ class ControllerModulePromotion extends Controller
         $this->data['entity_inactive'] = $this->language->get('entity_inactive');
         $this->data['entry_name'] = $this->language->get('entry_name');
         $this->data['entry_description'] = $this->language->get('entry_description');
-        $this->data['entry_meta_description'] = $this->language->get('entry_meta_description');
         $this->data['entry_image'] = $this->language->get('entry_image');
 
-        $this->data['column_image'] = $this->language->get('column_image');
         $this->data['column_title'] = $this->language->get('column_title');
         $this->data['column_status'] = $this->language->get('column_status');
-        $this->data['column_order'] = $this->language->get('column_order');
-        $this->data['column_position'] = $this->language->get('column_position');
         $this->data['column_actions'] = $this->language->get('column_actions');
 
         $this->data['text_browse'] = $this->language->get('text_browse');
         $this->data['text_clear'] = $this->language->get('text_clear');
         $this->data['text_image_manager'] = $this->language->get('text_image_manager');
+
+        $this->data['cancel'] = $this->url->link('module/promotion', '&token=' . $this->session->data['token']);
 
         $this->load->model('localisation/language');
         $this->data['languages'] = $this->model_localisation_language->getLanguages();

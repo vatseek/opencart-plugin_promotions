@@ -15,26 +15,20 @@ class ModelModulePromotion extends Model
      */
     public function savePromotion($promotionData)
     {
-        if (isset($promotionData['promotion_id']) && isset($promotionData['title']) && isset($promotionData['status']) && isset($promotionData['picture']) && isset($promotionData['order']) && isset($promotionData['position'])) {
+        if (isset($promotionData['status']) && isset($promotionData['promotion_id'])) {
+
             if (!$promotionData['promotion_id']) {
                 $promotionData['promotion_id'] = 'NULL';
             }
 
             $lastInsertedId = (int)$promotionData['promotion_id'];
-            $dataTitle = $this->db->escape($promotionData['title']);
-            $dataPicture = $this->db->escape($promotionData['picture']);
-            $dataPosition = $this->db->escape($promotionData['position']);
-            $dataOrder = (int)$promotionData['order'];
             $dataStatus = (int)$promotionData['status'];
 
             $query = "INSERT INTO `" . DB_PREFIX . "promotion` SET  ";
             $subQuery = "`promotion_id` =  {$lastInsertedId}, ";
-            $subQuery .= "`title` =  '{$dataTitle}', ";
-            $subQuery .= "`status` = '{$dataStatus}', ";
-            $subQuery .= "`picture` = '{$dataPicture}', ";
-            $subQuery .= "`order` = '{$dataOrder}', ";
-            $subQuery .= "`position` = '{$dataPosition}' ";
+            $subQuery .= "`status` = '{$dataStatus}' ";
             $query .= $subQuery . " ON DUPLICATE KEY UPDATE " . $subQuery;
+
             $this->db->query($query);
 
             if ($this->db->getLastId()) {
@@ -67,9 +61,7 @@ class ModelModulePromotion extends Model
             $dataPromotionId = $promotionId;
             $dataName = $this->db->escape($description['name']);
             $dataDescription = $this->db->escape($description['description']);
-            $dataMetaDescription = $this->db->escape($description['meta_description']);
             $dataImage = $this->db->escape($description['image']);
-            $dataBannerId = 0;
 
             $query = "INSERT INTO `" . DB_PREFIX . "promotion_description` SET ";
             $subQuery = "`description_id` =  {$dataDescriptionId}, ";
@@ -77,9 +69,7 @@ class ModelModulePromotion extends Model
             $subQuery .= "`name` = '{$dataName}', ";
             $subQuery .= "`language_id` = '{$language_id}', ";
             $subQuery .= "`description` = '{$dataDescription}', ";
-            $subQuery .= "`meta_description` = '{$dataMetaDescription}', ";
-            $subQuery .= "`image` = '{$dataImage}', ";
-            $subQuery .= "`banner_id` = '{$dataBannerId}' ";
+            $subQuery .= "`image` = '{$dataImage}' ";
             $query .= $subQuery . " ON DUPLICATE KEY UPDATE " . $subQuery;
 
             $this->db->query($query);
@@ -110,9 +100,12 @@ class ModelModulePromotion extends Model
      */
     public function getPromotions($activeOnly = false)
     {
-        $query = "SELECT * FROM `" . DB_PREFIX . "promotion` AS _p";
+        $currentLanguageId = (int)$this->config->get('config_language_id');
+
+        $query = "SELECT _p.*, _pd.name AS title FROM `" . DB_PREFIX . "promotion` AS _p ";
+        $query .= "INNER JOIN `" . DB_PREFIX . "promotion_description` AS _pd ON _pd.promotion_id = _p. promotion_id AND _pd.language_id = {$currentLanguageId} ";
         if ($activeOnly) {
-            $query .= "WHERE `_p.status` = '1'; ";
+            $query .= "WHERE `_p`.`status` = '1'; ";
         }
         $result = $this->db->query($query);
 
@@ -172,12 +165,7 @@ class ModelModulePromotion extends Model
     {
         $query = "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "promotion` (
             `promotion_id` INT(10) NOT NULL AUTO_INCREMENT,
-            `title` VARCHAR(255),
             `status` TINYINT(1) NOT NULL DEFAULT '0',
-            `picture` VARCHAR(255),
-            `position` VARCHAR(60),
-            `order` TINYINT(3) NOT NULL DEFAULT '0',
-            `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
             PRIMARY KEY `promotion_id`(`promotion_id`)
             )ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
         $this->db->query($query);
@@ -188,9 +176,7 @@ class ModelModulePromotion extends Model
             `language_id` INT(10) NOT NULL DEFAULT '0',
             `name` VARCHAR(255) NOT NULL,
             `description` TEXT,
-            `meta_description` VARCHAR(255) NOT NULL DEFAULT '',
             `image` VARCHAR(255)  NOT NULL DEFAULT '',
-            `banner_id` TINYINT(3) NOT NULL DEFAULT '0',
             PRIMARY KEY `description_id` (`description_id`),
             UNIQUE KEY (`promotion_id`, `language_id`),
             KEY `language_id`(`language_id`)
@@ -213,7 +199,9 @@ class ModelModulePromotion extends Model
 
         //rename file to enabled for vqmod
         $path = str_replace('system/config', 'vqmod/xml', DIR_CONFIG);
-        rename($path . 'promotion.bak', $path . 'promotion.xml');
+        rename($path . 'promotion.xml.dist', $path . 'promotion.xml');
+
+        $this->cache->delete('product');
     }
 
     /**
@@ -223,6 +211,6 @@ class ModelModulePromotion extends Model
     {
         //rename file to disables for vqmod
         $path = str_replace('system/config', 'vqmod/xml', DIR_CONFIG);
-        rename($path . 'promotion.xml', $path . 'promotion.bak');
+        rename($path . 'promotion.xml', $path . 'promotion.xml.dist');
     }
 }
